@@ -5,44 +5,57 @@
  * See: https://www.gatsbyjs.com/docs/use-static-query/
  */
 
-import React from "react"
+import React, { useState } from "react"
 import PropTypes from "prop-types"
-import { useStaticQuery, graphql } from "gatsby"
 
-import Header from "./header"
-import "./layout.css"
+import OffCanvasSidebar from "./off-canvas-sidebar"
+import StaticSidebar from "./static-sidebar"
 
 const Layout = ({ children }) => {
-  const data = useStaticQuery(graphql`
-    query SiteTitleQuery {
-      site {
-        siteMetadata {
-          title
-        }
-      }
-    }
-  `)
+  const [showMenu, setShowMenu] = useState(false)
+
+  const handleOffCanvasSidebar = event => {
+    event.preventDefault()
+    setShowMenu(!showMenu)
+  }
 
   return (
-    <>
-      <Header siteTitle={data.site.siteMetadata?.title || `Title`} />
+    <div className="h-screen flex overflow-hidden bg-black-dark">
+      <OffCanvasSidebar
+        showMenu={showMenu}
+        handleOffCanvasSidebar={handleOffCanvasSidebar}
+      />
+      <StaticSidebar />
       <div
-        style={{
-          margin: `0 auto`,
-          maxWidth: 960,
-          padding: `0 1.0875rem 1.45rem`,
-        }}
+        className={`flex flex-col w-0 flex-1 overflow-hidden ${
+          !showMenu ? "z-50" : ""
+        }`}
       >
-        <main>{children}</main>
-        <footer style={{
-          marginTop: `2rem`
-        }}>
-          © {new Date().getFullYear()}, Built with
-          {` `}
-          <a href="https://www.gatsbyjs.com">Gatsby</a>
-        </footer>
+        <div className="md:hidden pl-1 pt-1 sm:pl-3 sm:pt-3">
+          <button
+            className="-ml-0.5 -mt-0.5 h-12 w-12 inline-flex items-center justify-center rounded-md text-gray-500 hover:text-gray-900 focus:outline-none focus:bg-gray-200 transition ease-in-out duration-150"
+            aria-label="Open sidebar"
+            onClick={handleOffCanvasSidebar}
+          >
+            <svg
+              class="h-6 w-6"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
+          </button>
+        </div>
+        <main className="main">{children}</main>
       </div>
-    </>
+    </div>
   )
 }
 

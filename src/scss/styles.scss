@@ -1,0 +1,13 @@
+@import "~tailwindcss/base";
+@import "~tailwindcss/components";
+
+@import "ui/global";
+@import "ui/header";
+@import "ui/main";
+@import "ui/footer";
+@import "ui/albums-list";
+@import "ui/album-card";
+
+/* Start purging... */
+@import "~tailwindcss/utilities";
+/* Stop purging. */

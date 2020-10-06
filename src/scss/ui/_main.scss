@@ -1,0 +1,11 @@
+.main {
+  @apply flex-1 relative z-0 overflow-y-auto bg-black p-8;
+
+  &:focus {
+    @apply outline-none;
+  }
+
+  @screen md {
+    @apply p-12;
+  }
+}
